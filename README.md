@@ -17,21 +17,17 @@ Experience the app in action!
 Watch the demo video to explore its core features, bonus functionalities, and smooth responsive UI.  
 You can also download the Android app directly from the link below.
 
-<p align="center">
+<p>
 
 <!-- Demo Video -->
-<a href="https://drive.google.com/file/d/14yf0_MRAKcxlKipdFBscMZ3zq3x0H32q/view?usp=sharing" target="_blank">
-  <img src="httpspreviews/video-thumbnail.png" alt="Demo Video" width="600"/>
-</a>  
-<strong><a href="https://drive.google.com/file/d/14yf0_MRAKcxlKipdFBscMZ3zq3x0H32q/view?usp=sharing" target="_blank">▶️ Watch the Demo Video</a></strong>
 
-<br><br>
+<strong><a href="https://drive.google.com/file/d/14yf0_MRAKcxlKipdFBscMZ3zq3x0H32q/view?usp=sharing" target="_blank">▶️ Watch the Demo Video</a></strong> : https://drive.google.com/file/d/14yf0_MRAKcxlKipdFBscMZ3zq3x0H32q/view?usp=sharing
+
+<br>
 
 <!-- Download App -->
-<a href="https://drive.google.com/file/d/17vrMWMNff1oSQ3IRgxXH7Oy1fDe6muFc/view?usp=sharing" target="_blank">
-  <img src="httpspreviews/app-download.png" alt="Download App" width="600"/>
-</a>  
-<strong><a href="https://drive.google.com/file/d/17vrMWMNff1oSQ3IRgxXH7Oy1fDe6muFc/view?usp=sharing" target="_blank">⬇️ Download Android App</a></strong>
+ 
+<strong><a href="https://drive.google.com/file/d/17vrMWMNff1oSQ3IRgxXH7Oy1fDe6muFc/view?usp=sharing" target="_blank">⬇️ Download Android App</a></strong> : https://drive.google.com/file/d/17vrMWMNff1oSQ3IRgxXH7Oy1fDe6muFc/view?usp=sharing
 
 </p>
 
