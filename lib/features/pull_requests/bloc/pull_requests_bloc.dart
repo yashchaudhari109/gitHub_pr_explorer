@@ -1,0 +1,97 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:github_pr_explorer/core/error/exceptions.dart';
+import 'package:github_pr_explorer/features/pull_requests/bloc/pull_requests_event.dart';
+import 'package:github_pr_explorer/features/pull_requests/bloc/pull_requests_state.dart';
+import 'package:github_pr_explorer/features/pull_requests/data/repository/pull_request_repository.dart';
+
+class PullRequestsBloc extends Bloc<PullRequestsEvent, PullRequestsState> {
+  final PullRequestRepository _pullRequestRepository;
+
+  PullRequestsBloc({required PullRequestRepository pullRequestRepository})
+    : _pullRequestRepository = pullRequestRepository,
+      super(const PullRequestsInitial(owner: 'flutter', repo: 'flutter')) {
+    on<PullRequestsFetched>(_onPullRequestsFetched);
+    on<PullRequestsRefreshed>(_onPullRequestsRefreshed);
+    on<PullRequestsRepoChanged>(_onPullRequestsRepoChanged);
+  }
+
+  Future<void> _fetchData(
+    String owner,
+    String repo,
+    Emitter<PullRequestsState> emit,
+  ) async {
+    try {
+      final pullRequests = await _pullRequestRepository.getOpenPullRequests(
+        owner: owner,
+        repo: repo,
+      );
+      emit(
+        PullRequestsLoaded(
+          pullRequests: pullRequests,
+          owner: owner,
+          repo: repo,
+        ),
+      );
+    } on ServerException catch (e) {
+      // Logic to determine the error type based on the status code
+      final errorType = _mapStatusCodeToErrorType(e.statusCode);
+      final message = e.message;
+      emit(
+        PullRequestsError(
+          message: message,
+          type: errorType,
+          owner: owner,
+          repo: repo,
+        ),
+      );
+    }
+  }
+
+  PullRequestErrorType _mapStatusCodeToErrorType(int? statusCode) {
+    switch (statusCode) {
+      case 403:
+        return PullRequestErrorType.rateLimitExceeded;
+      case 404:
+        return PullRequestErrorType.repositoryNotFound;
+      case 422:
+        return PullRequestErrorType.invalidInput;
+      default:
+        return PullRequestErrorType.unknown;
+    }
+  }
+
+  Future<void> _onPullRequestsFetched(
+    PullRequestsFetched event,
+    Emitter<PullRequestsState> emit,
+  ) async {
+    emit(PullRequestsLoading(owner: state.owner, repo: state.repo));
+    await _fetchData(state.owner, state.repo, emit);
+  }
+
+  Future<void> _onPullRequestsRefreshed(
+    PullRequestsRefreshed event,
+    Emitter<PullRequestsState> emit,
+  ) async {
+    await _fetchData(state.owner, state.repo, emit);
+  }
+
+  Future<void> _onPullRequestsRepoChanged(
+    PullRequestsRepoChanged event,
+    Emitter<PullRequestsState> emit,
+  ) async {
+    // Basic validation for empty input
+    if (event.owner.isEmpty || event.repo.isEmpty) {
+      emit(
+        PullRequestsError(
+          message: 'Owner and Repository names cannot be empty.',
+          type: PullRequestErrorType.invalidInput,
+          owner: state.owner,
+          repo: state.repo,
+        ),
+      );
+      return;
+    }
+    emit(PullRequestsLoading(owner: event.owner, repo: event.repo));
+    await _fetchData(event.owner, event.repo, emit);
+  }
+}
