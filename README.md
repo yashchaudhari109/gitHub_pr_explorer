@@ -70,7 +70,6 @@ lib/
 │   ├── pull_requests/  # Pull Request feature (Bloc, Data, View)
 └── main.dart           # App entry point
 
-
 🔐 Token Handling Explained
 - The application simulates a login flow to demonstrate secure token handling, as requested in the bonus requirements.
 - Login Screen: On first launch, the user is presented with a dummy login screen.
