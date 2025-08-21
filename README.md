@@ -11,17 +11,28 @@ The app features simulated user authentication, dynamic repository switching, an
 
 ---
 
-## 🎥 Demo Video
+## 🎥 Demo & Download
 
-Below is a demonstration of the app running on an Android emulator, showcasing its core features, bonus functionalities, and responsive UI.
+Experience the app in action!  
+Watch the demo video to explore its core features, bonus functionalities, and smooth responsive UI.  
+You can also download the Android app directly from the link below.
 
 <p align="center">
-<a href="">
-<!-- Replace this with a thumbnail image of your video -->
-<img src="httpspreviews/video-thumbnail.png" alt="Watch the video" width="600"/>
-</a>
-<br>
-<strong><a href="">Watch the Demo Video</a></strong>
+
+<!-- Demo Video -->
+<a href="https://drive.google.com/file/d/14yf0_MRAKcxlKipdFBscMZ3zq3x0H32q/view?usp=sharing" target="_blank">
+  <img src="httpspreviews/video-thumbnail.png" alt="Demo Video" width="600"/>
+</a>  
+<strong><a href="https://drive.google.com/file/d/14yf0_MRAKcxlKipdFBscMZ3zq3x0H32q/view?usp=sharing" target="_blank">▶️ Watch the Demo Video</a></strong>
+
+<br><br>
+
+<!-- Download App -->
+<a href="https://drive.google.com/file/d/17vrMWMNff1oSQ3IRgxXH7Oy1fDe6muFc/view?usp=sharing" target="_blank">
+  <img src="httpspreviews/app-download.png" alt="Download App" width="600"/>
+</a>  
+<strong><a href="https://drive.google.com/file/d/17vrMWMNff1oSQ3IRgxXH7Oy1fDe6muFc/view?usp=sharing" target="_blank">⬇️ Download Android App</a></strong>
+
 </p>
 
 ---
