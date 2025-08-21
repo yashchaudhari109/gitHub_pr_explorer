@@ -9,7 +9,12 @@ class PullRequestsBloc extends Bloc<PullRequestsEvent, PullRequestsState> {
 
   PullRequestsBloc({required PullRequestRepository pullRequestRepository})
     : _pullRequestRepository = pullRequestRepository,
-      super(const PullRequestsInitial(owner: 'flutter', repo: 'flutter')) {
+      super(
+        const PullRequestsInitial(
+          owner: 'yashchaudhari109',
+          repo: 'gitHub_pr_explorer',
+        ),
+      ) {
     on<PullRequestsFetched>(_onPullRequestsFetched);
     on<PullRequestsRefreshed>(_onPullRequestsRefreshed);
     on<PullRequestsRepoChanged>(_onPullRequestsRepoChanged);

@@ -259,8 +259,8 @@ class _EditRepoDialogState extends State<_EditRepoDialog> {
               onPressed: () {
                 context.read<PullRequestsBloc>().add(
                   const PullRequestsRepoChanged(
-                    owner: 'flutter',
-                    repo: 'flutter',
+                    owner: 'yashchaudhari109',
+                    repo: 'gitHub_pr_explorer',
                   ),
                 );
                 Navigator.of(context).pop();
@@ -361,8 +361,8 @@ class _ErrorDisplay extends StatelessWidget {
                   onPressed: () {
                     context.read<PullRequestsBloc>().add(
                       const PullRequestsRepoChanged(
-                        owner: 'flutter',
-                        repo: 'flutter',
+                        owner: 'yashchaudhari109',
+                        repo: 'gitHub_pr_explorer',
                       ),
                     );
                   },
