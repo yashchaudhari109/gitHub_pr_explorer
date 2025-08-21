@@ -52,6 +52,7 @@ dependencies:
   shimmer: 3.0.0 # For loading animation
   url_launcher: 6.2.1
   flutter_linkify: 6.0.0
+  flutter_staggered_animations: 1.1.1
 
   # Navigation
   go_router: 12.1.1
