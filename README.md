@@ -1,13 +1,20 @@
-GitHub Pull Request Viewer 🚀
-<br>
-A Flutter application built for a hiring assessment that displays the open pull requests of a specified GitHub repository using the GitHub REST API. The app features simulated user authentication, dynamic repository switching, and a clean, scalable architecture.
-<br>
+# GitHub Pull Request Viewer 🚀
+
+A **Flutter application** built for a hiring assessment that displays the open pull requests of a specified GitHub repository using the GitHub REST API.  
+The app features simulated user authentication, dynamic repository switching, and a clean, scalable architecture.
+
+---
+
 <p align="center">
 <img src="httpspreviews/app-demo.gif" alt="App Demo GIF" width="300"/>
 </p>
 
-🎥 Demo Video
+---
+
+## 🎥 Demo Video
+
 Below is a demonstration of the app running on an Android emulator, showcasing its core features, bonus functionalities, and responsive UI.
+
 <p align="center">
 <a href="">
 <!-- Replace this with a thumbnail image of your video -->
@@ -17,61 +24,51 @@ Below is a demonstration of the app running on an Android emulator, showcasing i
 <strong><a href="">Watch the Demo Video</a></strong>
 </p>
 
-✨ Key Features<br>
-- View Open Pull Requests: Fetches and displays a list of all open PRs from a public GitHub repository.<br>
-- Detailed PR View: Tap on any PR to see its full description with clickable links.<br>
-- Simulated Authentication: A dummy login screen that demonstrates secure token handling using shared_preferences.<br>
-- Dynamic Repository Switching: An "Edit" button that allows the user to change the target repository (owner/repo) in real-time.<br>
-- Robust Error Handling: Handles various scenarios like invalid repository names, no internet connection, or API rate limits gracefully.<br>
-- Modern UI/UX: Features a shimmer loading effect, pull-to-refresh, and a "Retry" option on failure.<br>
+---
 
-🛠️ Tech Stack & Architecture
-<table>
-<tr>
-<td align="center"><strong>Framework</strong></td>
-<td align="center"><strong>State Management</strong></td>
-<td align="center"><strong>Architecture</strong></td>
-<td align="center"><strong>Navigation</strong></td>
-</tr>
-<tr>
-<td align="center">Flutter</td>
-<td align="center">BLoC</td>
-<td align="center">MVVM-inspired</td>
-<td align="center">go_router</td>
-</tr>
-<tr>
-<td align="center"><strong>API Calls</strong></td>
-<td align="center"><strong>Dependency Injection</strong></td>
-<td align="center"><strong>Local Storage</strong></td>
-<td align="center"><strong>UI Helpers</strong></td>
-</tr>
-<tr>
-<td align="center">http</td>
-<td align="center">get_it</td>
-<td align="center">shared_preferences</td>
-<td align="center">flutter_linkify & url_launcher</td>
-</tr>
-</table>
+## ✨ Key Features
+
+- **View Open Pull Requests** → Fetches and displays a list of all open PRs from a public GitHub repository.
+- **Detailed PR View** → Tap on any PR to see its full description with clickable links.
+- **Simulated Authentication** → Dummy login screen demonstrating secure token handling via `shared_preferences`.
+- **Dynamic Repository Switching** → Edit button lets the user change the target repository (owner/repo) in real-time.
+- **Robust Error Handling** → Handles invalid repo names, no internet, and API rate limits gracefully.
+- **Modern UI/UX** → Shimmer loading effect, pull-to-refresh, and a retry option on failure.
+
+---
+
+## 🛠️ Tech Stack & Architecture
+
+| **Framework** | **State Management** | **Architecture** | **Navigation** |
+|---------------|-----------------------|------------------|----------------|
+| Flutter       | BLoC                 | MVVM-inspired    | go_router      |
+
+| **API Calls** | **Dependency Injection** | **Local Storage** | **UI Helpers** |
+|---------------|---------------------------|-------------------|----------------|
+| http          | get_it                    | shared_preferences| flutter_linkify, url_launcher |
+
 <p align="center">
 <img src="https://img.shields.io/badge/Flutter-%2302569B.svg?style=for-the-badge&logo=Flutter&logoColor=white" alt="Flutter Badge"/>
 <img src="https://img.shields.io/badge/Dart-0175C2?style=for-the-badge&logo=dart&logoColor=white" alt="Dart Badge"/>
 <img src="https://img.shields.io/badge/BLoC-45A6F5?style=for-the-badge&logo=c&logoColor=white" alt="BLoC Badge"/>
 </p>
 
-📁 Project Structure <br>
-The project follows a feature-first, modular structure to ensure scalability and separation of concerns.
-code
-Code
+---
+
+## 📁 Project Structure
+
+The project follows a **feature-first, modular structure** to ensure scalability and separation of concerns.
+```bash
 lib/
-|-- app/                # Root of the application (MaterialApp, Router, etc.)
-|-- core/               # Shared code: API clients, DI, error handling, themes
-|   |-- api/
-|   |-- di/
-|   |-- error/
-|-- features/           # Contains all the distinct features of the app
-|   |-- auth/           # Authentication feature (Bloc, Data, View)
-|   |-- pull_requests/  # Pull Request feature (Bloc, Data, View)
-|-- main.dart           # App entry point
+├── app/                # Root of the application (MaterialApp, Router, etc.)
+├── core/               # Shared code: API clients, DI, error handling, themes
+│   ├── api/
+│   ├── di/
+│   ├── error/
+├── features/           # Contains all the distinct features of the app
+│   ├── auth/           # Authentication feature (Bloc, Data, View)
+│   ├── pull_requests/  # Pull Request feature (Bloc, Data, View)
+└── main.dart           # App entry point
 
 
 🔐 Token Handling Explained <br>
