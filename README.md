@@ -92,7 +92,6 @@ lib/
  - Pull to Refresh: The PR list can be refreshed by swiping down.
  - Retry on Failure: A "Retry" button appears if the API call fails.
  - Responsive Layout: The UI is built with widgets that adapt to different screen sizes.
- - Dark Mode: The app is ready for a dark theme (foundation laid in app_theme.dart).
  - Shimmer Loading: A shimmer animation is shown while fetching data for a better user experience.
  - Dynamic Repository Changer: (Self-implemented bonus) An "Edit" button allows users to fetch PRs from any public repository.
  - Detailed Error Handling: Specific, user-friendly error messages for different failure scenarios (e.g., "Repository Not Found").

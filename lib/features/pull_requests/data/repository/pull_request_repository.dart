@@ -1,12 +1,14 @@
 import 'package:github_pr_explorer/core/api/api_client.dart';
 import 'package:github_pr_explorer/core/error/exceptions.dart';
+import 'package:github_pr_explorer/features/pull_requests/bloc/pull_requests_bloc.dart';
 import 'package:github_pr_explorer/features/pull_requests/data/models/pull_request_model.dart';
 
 // The contract for our repository. The PullRequestsBloc will depend on this.
 abstract class PullRequestRepository {
-  Future<List<PullRequestModel>> getOpenPullRequests({
+  Future<List<PullRequestModel>> getPullRequests({
     required String owner,
     required String repo,
+    required PullRequestStatus status,
   });
 }
 
@@ -17,12 +19,13 @@ class PullRequestRepositoryImpl implements PullRequestRepository {
   PullRequestRepositoryImpl(this.apiClient);
 
   @override
-  Future<List<PullRequestModel>> getOpenPullRequests({
+  Future<List<PullRequestModel>> getPullRequests({
     required String owner,
     required String repo,
+    required PullRequestStatus status,
   }) async {
     final uri = Uri.https('api.github.com', '/repos/$owner/$repo/pulls', {
-      'state': 'open',
+      'state': status.name,
     });
 
     try {
