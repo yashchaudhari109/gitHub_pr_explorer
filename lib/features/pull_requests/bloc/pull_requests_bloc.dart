@@ -4,6 +4,17 @@ import 'package:github_pr_explorer/features/pull_requests/bloc/pull_requests_eve
 import 'package:github_pr_explorer/features/pull_requests/bloc/pull_requests_state.dart';
 import 'package:github_pr_explorer/features/pull_requests/data/repository/pull_request_repository.dart';
 
+enum PullRequestStatus {
+  // Define a string value for each member
+  open('open'),
+  closed('closed'),
+  all('all');
+
+  // Add a constant constructor and a final variable
+  const PullRequestStatus(this.value);
+  final String value;
+}
+
 class PullRequestsBloc extends Bloc<PullRequestsEvent, PullRequestsState> {
   final PullRequestRepository _pullRequestRepository;
 
@@ -13,6 +24,7 @@ class PullRequestsBloc extends Bloc<PullRequestsEvent, PullRequestsState> {
         const PullRequestsInitial(
           owner: 'yashchaudhari109',
           repo: 'gitHub_pr_explorer',
+          status: PullRequestStatus.all,
         ),
       ) {
     on<PullRequestsFetched>(_onPullRequestsFetched);
@@ -23,18 +35,21 @@ class PullRequestsBloc extends Bloc<PullRequestsEvent, PullRequestsState> {
   Future<void> _fetchData(
     String owner,
     String repo,
+    PullRequestStatus status,
     Emitter<PullRequestsState> emit,
   ) async {
     try {
-      final pullRequests = await _pullRequestRepository.getOpenPullRequests(
+      final pullRequests = await _pullRequestRepository.getPullRequests(
         owner: owner,
         repo: repo,
+        status: status,
       );
       emit(
         PullRequestsLoaded(
           pullRequests: pullRequests,
           owner: owner,
           repo: repo,
+          status: status,
         ),
       );
     } on ServerException catch (e) {
@@ -47,6 +62,7 @@ class PullRequestsBloc extends Bloc<PullRequestsEvent, PullRequestsState> {
           type: errorType,
           owner: owner,
           repo: repo,
+          status: status,
         ),
       );
     }
@@ -69,15 +85,21 @@ class PullRequestsBloc extends Bloc<PullRequestsEvent, PullRequestsState> {
     PullRequestsFetched event,
     Emitter<PullRequestsState> emit,
   ) async {
-    emit(PullRequestsLoading(owner: state.owner, repo: state.repo));
-    await _fetchData(state.owner, state.repo, emit);
+    emit(
+      PullRequestsLoading(
+        owner: state.owner,
+        repo: state.repo,
+        status: state.status,
+      ),
+    );
+    await _fetchData(state.owner, state.repo, state.status, emit);
   }
 
   Future<void> _onPullRequestsRefreshed(
     PullRequestsRefreshed event,
     Emitter<PullRequestsState> emit,
   ) async {
-    await _fetchData(state.owner, state.repo, emit);
+    await _fetchData(state.owner, state.repo, state.status, emit);
   }
 
   Future<void> _onPullRequestsRepoChanged(
@@ -92,11 +114,18 @@ class PullRequestsBloc extends Bloc<PullRequestsEvent, PullRequestsState> {
           type: PullRequestErrorType.invalidInput,
           owner: state.owner,
           repo: state.repo,
+          status: state.status,
         ),
       );
       return;
     }
-    emit(PullRequestsLoading(owner: event.owner, repo: event.repo));
-    await _fetchData(event.owner, event.repo, emit);
+    emit(
+      PullRequestsLoading(
+        owner: event.owner,
+        repo: event.repo,
+        status: event.status,
+      ),
+    );
+    await _fetchData(event.owner, event.repo, event.status, emit);
   }
 }
