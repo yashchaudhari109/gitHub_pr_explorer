@@ -4,13 +4,15 @@ A **Flutter application** built for a hiring assessment that displays the open p
 The app features simulated user authentication, dynamic repository switching, and a clean, scalable architecture.
 
 ---
+## 📸 Screenshots
 
 <p align="center">
-<img src="httpspreviews/app-demo.gif" alt="App Demo GIF" width="300"/>
+  <img src="asset/login_screen.jpg" alt="Login Screen" width="250"/>
+  <img src="asset/home_screen.jpg" alt="Home Screen" width="250"/>
+  <img src="asset/edit_dialog.jpg" alt="Edit Repository Dialog" width="250"/>
 </p>
 
 ---
-
 ## 🎥 Demo & Download
 
 Experience the app in action!  
