@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:github_pr_explorer/core/di/injector.dart';
 import 'package:github_pr_explorer/features/auth/bloc/auth_bloc.dart';
 import 'package:github_pr_explorer/features/auth/bloc/auth_event.dart';
@@ -27,14 +29,18 @@ class PullRequestsView extends StatelessWidget {
             appBar: AppBar(
               title: Text(
                 '${state.owner}/${state.repo}',
-                style: TextStyle(fontSize: 16),
+                style: const TextStyle(fontSize: 16),
               ),
               actions: [
                 IconButton(
                   icon: const Icon(Icons.edit, size: 20),
                   onPressed:
-                      () =>
-                          _showEditRepoDialog(context, state.owner, state.repo),
+                      () => _showEditRepoDialog(
+                        context,
+                        state.owner,
+                        state.repo,
+                        state.status,
+                      ),
                 ),
                 IconButton(
                   icon: const Icon(Icons.logout, size: 20),
@@ -60,6 +66,7 @@ class PullRequestsView extends StatelessWidget {
     BuildContext context,
     String currentOwner,
     String currentRepo,
+    PullRequestStatus currentStatus,
   ) {
     showDialog(
       context: context,
@@ -69,6 +76,7 @@ class PullRequestsView extends StatelessWidget {
             child: _EditRepoDialog(
               currentOwner: currentOwner,
               currentRepo: currentRepo,
+              currentStatus: currentStatus,
             ),
           ),
     );
@@ -78,14 +86,42 @@ class PullRequestsView extends StatelessWidget {
     return BlocBuilder<AuthBloc, AuthState>(
       builder: (context, authState) {
         if (authState is AuthAuthenticated) {
-          return Container(
-            padding: const EdgeInsets.all(8.0),
-            color: Colors.blue.shade100,
-            width: double.infinity,
-            child: Text(
-              'Logged in with token: ${authState.token}',
-              style: Theme.of(context).textTheme.bodySmall,
-              textAlign: TextAlign.center,
+          return InkWell(
+            onTap: () {
+              Clipboard.setData(ClipboardData(text: authState.token));
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Token copied to clipboard')),
+              );
+            },
+            child: Container(
+              padding: const EdgeInsets.all(8.0),
+              color: Colors.blue.shade100,
+              width: double.infinity,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: Text(
+                      'Logged in with token: ${authState.token}',
+                      style: Theme.of(context).textTheme.bodySmall,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
+                    ),
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.copy, size: 12),
+                    tooltip: 'Copy token',
+                    onPressed: () {
+                      Clipboard.setData(ClipboardData(text: authState.token));
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Token copied to clipboard'),
+                        ),
+                      );
+                    },
+                  ),
+                ],
+              ),
             ),
           );
         }
@@ -110,12 +146,23 @@ class PullRequestsView extends StatelessWidget {
                 () async => context.read<PullRequestsBloc>().add(
                   PullRequestsRefreshed(),
                 ),
-            child: ListView.builder(
-              itemCount: state.pullRequests.length,
-              itemBuilder:
-                  (context, index) => PullRequestListItem(
-                    pullRequest: state.pullRequests[index],
-                  ),
+            child: AnimationLimiter(
+              child: ListView.builder(
+                itemCount: state.pullRequests.length,
+                itemBuilder:
+                    (context, index) => AnimationConfiguration.staggeredList(
+                      position: index,
+                      duration: const Duration(milliseconds: 375),
+                      child: SlideAnimation(
+                        verticalOffset: 50.0,
+                        child: FadeInAnimation(
+                          child: PullRequestListItem(
+                            pullRequest: state.pullRequests[index],
+                          ),
+                        ),
+                      ),
+                    ),
+              ),
             ),
           );
         } else if (state is PullRequestsError) {
@@ -185,10 +232,12 @@ class PullRequestsView extends StatelessWidget {
 class _EditRepoDialog extends StatefulWidget {
   final String currentOwner;
   final String currentRepo;
+  final PullRequestStatus currentStatus;
 
   const _EditRepoDialog({
     required this.currentOwner,
     required this.currentRepo,
+    required this.currentStatus,
   });
 
   @override
@@ -198,6 +247,8 @@ class _EditRepoDialog extends StatefulWidget {
 class _EditRepoDialogState extends State<_EditRepoDialog> {
   late final TextEditingController _ownerController;
   late final TextEditingController _repoController;
+  late PullRequestStatus _selectedStatus;
+
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -205,6 +256,7 @@ class _EditRepoDialogState extends State<_EditRepoDialog> {
     super.initState();
     _ownerController = TextEditingController(text: widget.currentOwner);
     _repoController = TextEditingController(text: widget.currentRepo);
+    _selectedStatus = widget.currentStatus;
   }
 
   @override
@@ -247,6 +299,26 @@ class _EditRepoDialogState extends State<_EditRepoDialog> {
                             ? 'Cannot be empty'
                             : null,
               ),
+              DropdownButtonFormField<PullRequestStatus>(
+                value: _selectedStatus,
+                decoration: const InputDecoration(labelText: 'Status'),
+                items:
+                    PullRequestStatus.values
+                        .map(
+                          (status) => DropdownMenuItem(
+                            value: status,
+                            child: Text(status.toString().split('.').last),
+                          ),
+                        )
+                        .toList(),
+                onChanged: (newValue) {
+                  if (newValue != null) {
+                    setState(() {
+                      _selectedStatus = newValue;
+                    });
+                  }
+                },
+              ),
             ],
           ),
         ),
@@ -261,6 +333,7 @@ class _EditRepoDialogState extends State<_EditRepoDialog> {
                   const PullRequestsRepoChanged(
                     owner: 'yashchaudhari109',
                     repo: 'gitHub_pr_explorer',
+                    status: PullRequestStatus.all,
                   ),
                 );
                 Navigator.of(context).pop();
@@ -284,6 +357,7 @@ class _EditRepoDialogState extends State<_EditRepoDialog> {
                     PullRequestsRepoChanged(
                       owner: _ownerController.text.trim(),
                       repo: _repoController.text.trim(),
+                      status: _selectedStatus,
                     ),
                   );
                   Navigator.of(context).pop();
@@ -363,6 +437,7 @@ class _ErrorDisplay extends StatelessWidget {
                       const PullRequestsRepoChanged(
                         owner: 'yashchaudhari109',
                         repo: 'gitHub_pr_explorer',
+                        status: PullRequestStatus.all,
                       ),
                     );
                   },

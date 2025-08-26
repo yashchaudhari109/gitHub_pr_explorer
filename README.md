@@ -11,17 +11,24 @@ The app features simulated user authentication, dynamic repository switching, an
 
 ---
 
-## 🎥 Demo Video
+## 🎥 Demo & Download
 
-Below is a demonstration of the app running on an Android emulator, showcasing its core features, bonus functionalities, and responsive UI.
+Experience the app in action!  
+Watch the demo video to explore its core features, bonus functionalities, and smooth responsive UI.  
+You can also download the Android app directly from the link below.
 
-<p align="center">
-<a href="">
-<!-- Replace this with a thumbnail image of your video -->
-<img src="httpspreviews/video-thumbnail.png" alt="Watch the video" width="600"/>
-</a>
+<p>
+
+<!-- Demo Video -->
+
+<strong><a href="https://drive.google.com/file/d/14yf0_MRAKcxlKipdFBscMZ3zq3x0H32q/view?usp=sharing" target="_blank">▶️ Watch the Demo Video</a></strong> : https://drive.google.com/file/d/14yf0_MRAKcxlKipdFBscMZ3zq3x0H32q/view?usp=sharing
+
 <br>
-<strong><a href="">Watch the Demo Video</a></strong>
+
+<!-- Download App -->
+ 
+<strong><a href="https://drive.google.com/file/d/17vrMWMNff1oSQ3IRgxXH7Oy1fDe6muFc/view?usp=sharing" target="_blank">⬇️ Download Android App</a></strong> : https://drive.google.com/file/d/17vrMWMNff1oSQ3IRgxXH7Oy1fDe6muFc/view?usp=sharing
+
 </p>
 
 ---
@@ -84,7 +91,6 @@ lib/
  - Pull to Refresh: The PR list can be refreshed by swiping down.
  - Retry on Failure: A "Retry" button appears if the API call fails.
  - Responsive Layout: The UI is built with widgets that adapt to different screen sizes.
- - Dark Mode: The app is ready for a dark theme (foundation laid in app_theme.dart).
  - Shimmer Loading: A shimmer animation is shown while fetching data for a better user experience.
  - Dynamic Repository Changer: (Self-implemented bonus) An "Edit" button allows users to fetch PRs from any public repository.
  - Detailed Error Handling: Specific, user-friendly error messages for different failure scenarios (e.g., "Repository Not Found").
